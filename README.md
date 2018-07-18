@@ -1,2 +1,2 @@
 # leetcode
-YueGeQiu solutions of leetcode puzzles
+YueGeQiuLab solutions of leetcode puzzles
