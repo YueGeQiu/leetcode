@@ -3,6 +3,11 @@
  */
 int* twoSum(int* nums, int numsSize, int target) {
     int i, j, tmp;
+
+    if (!nums) {
+        return NULL;
+    }
+
     int* result = malloc(2 * sizeof(int));
     if (!result) {
         return NULL;
