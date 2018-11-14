@@ -57,5 +57,7 @@ int* largestValues(struct TreeNode* root, int* returnSize) {
     }
 
     dfs(root, ret, 0, flag);
+    free(flag);
+
     return ret;
 }
