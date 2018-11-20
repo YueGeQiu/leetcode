@@ -6,32 +6,30 @@
  *     struct TreeNode *right;
  * };
  */
-struct TreeNode* buildChildTree(int* preorder, int pl, int pr, int* inorder, int il, int ir) {
-    if (il > ir) {
+struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int inorderSize) {
+    if (preorderSize == 0) {
         return NULL;
+    }
+
+    struct TreeNode* root = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+    root->val = preorder[0];
+
+    if (preorderSize == 1) {
+        root->left = root->right = NULL;
+        return root;
     }
 
     int i, left_len;
-
-    struct TreeNode* root = (struct TreeNode *)calloc(1, sizeof(struct TreeNode));
-    if (!root) {
-        return NULL;
-    }
-    root->val = preorder[pl];
-
-    for (i = il; i <= ir; i++) {
+    for (i = 0; i < inorderSize; i++) {
         if (inorder[i] == root->val) {
             break;
         }
     }
-    left_len = i - il;
+    left_len = i;
 
-    root->left = buildChildTree(preorder, pl + 1, pl + left_len, inorder, il, i - 1);
-    root->right = buildChildTree(preorder, pl + left_len + 1, pr, inorder, i + 1, ir);
+    root->left = buildTree(preorder + 1, left_len, inorder, left_len);
+    root->right = buildTree(preorder + 1 + left_len, preorderSize - 1 - left_len,
+                            inorder + left_len + 1, inorderSize - 1 - left_len);
 
     return root;
-}
-
-struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int inorderSize) {
-    return buildChildTree(preorder, 0, preorderSize - 1, inorder, 0, inorderSize - 1);
 }
