@@ -7,25 +7,17 @@
  * };
  */
 bool isSymmetricTree(struct TreeNode* p, struct TreeNode* q) {
-    if (!p && !q) {
-        return 1;
+    if (p && q) {
+        return p->val == q->val && 
+               isSymmetricTree(p->left, q->right) &&
+               isSymmetricTree(p->right, q->left);
+    } else {
+        return p == NULL && q == NULL;
     }
-
-    if (!p || !q) {
-        return 0;
-    }
-
-    if (p->val != q->val) {
-        return 0;
-    }
-
-    return isSymmetricTree(p->left, q->right) & isSymmetricTree(p->right, q->left);
 }
 
 bool isSymmetric(struct TreeNode* root) {
-    if (!root) {
-        return 1;
-    }
+    if (!root) return true;
 
     return isSymmetricTree(root->left, root->right);
 }
