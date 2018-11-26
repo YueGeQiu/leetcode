@@ -50,24 +50,18 @@ int* preorderTraversal(struct TreeNode* root, int* returnSize) {
     }
 
     struct TreeNode* stack[MAX_LEN];
-    struct TreeNode* p = root;
+    int top = -1;
 
-    int index = -1;
-
-    while(1) {
-        while(p) {
-            ret[(*returnSize)++] = p->val;
-            if (p->right) {
-                stack[++index] = p->right;
+    while (root || top >= 0) {
+        if (root) {
+            ret[(*returnSize)++] = root->val;
+            if (root->right) {
+                stack[++top] = root->right;
             }
-            p = p->left;
+            root = root->left;
+        } else {
+            root = stack[top--];
         }
-
-        if (index == -1) {
-            break;
-        }
-
-        p = stack[index--];
     }
 
     return ret;

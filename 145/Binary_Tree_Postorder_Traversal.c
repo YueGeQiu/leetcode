@@ -44,34 +44,36 @@
 int* postorderTraversal(struct TreeNode* root, int* returnSize) {
     *returnSize = 0;
 
+    if (!root) {
+        return NULL;
+    }
+
     int* ret = (int*)malloc(MAX_LEN * sizeof(int));
     if (!ret) {
         return NULL;
     }
 
     struct TreeNode* stack[MAX_LEN];
-    struct TreeNode *p = root, *pre = NULL;
+    struct TreeNode* pre = NULL;
 
-    int index = -1;
+    int top = -1;
 
-    while(p || index != -1) {
-        while(p) {
-            stack[++index] = p;
-            p = p->left;
+    do {
+        while (root && root != pre) {
+            stack[++top] = root;
+            root = root->left;
         }
 
-        p = stack[index];
+        root = stack[top];
 
-        if (p->right && p->right != pre) {
-            p = p->right;
-            continue;
+        if (!root->right || root->right == pre) {
+            ret[(*returnSize)++] = root->val;
+            top--;
+            pre = root;
+        } else {
+            root = root->right;
         }
-
-        ret[(*returnSize)++] = p->val;
-        pre = p;
-        p = NULL;
-        index--;
-    }
+    } while (top >= 0);
 
     return ret;
 }
