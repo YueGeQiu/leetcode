@@ -54,14 +54,14 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
     int top = -1;
 
     while (root || top >= 0) {
-        if (root) {
+        while (root) {
             stack[++top] = root;
             root = root->left;
-        } else {
-            root = stack[top--];
-            ret[(*returnSize)++] = root->val;
-            root = root->right;
         }
+
+        root = stack[top--];
+        ret[(*returnSize)++] = root->val;
+        root = root->right;
     }
 
     return ret;
