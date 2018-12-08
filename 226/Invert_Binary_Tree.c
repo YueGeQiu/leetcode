@@ -6,25 +6,14 @@
  *     struct TreeNode *right;
  * };
  */
-void swap(struct TreeNode** left, struct TreeNode** right) {
-    struct TreeNode* tmp;
-    tmp = *left;
-    *left = *right;
-    *right = tmp;
-}
-
-void dfs(struct TreeNode* root) {
-    if(!root) {
-        return;
-    }
-
-    swap(&root->left, &root->right);
-
-    dfs(root->left);
-    dfs(root->right);
-}
-
 struct TreeNode* invertTree(struct TreeNode* root) {
-    dfs(root);
+    if(!root) return;
+
+    struct TreeNode* tmp = root->left;
+    root->left = root->right;
+    root->right = tmp;
+
+    invertTree(root->left);
+    invertTree(root->right);
     return root;
 }
