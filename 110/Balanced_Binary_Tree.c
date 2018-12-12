@@ -7,31 +7,23 @@
  * };
  */
 
-int treeDepth(struct TreeNode* root) {
-    if (!root) {
-        return 0;
-    }
+//return val:
+//-1 : not balance
+//other : tree depth
+int isBalancedBottomUp(struct TreeNode* root) {
+    if (!root) return 0;
 
-    int left = treeDepth(root->left);
-    int right = treeDepth(root->right);
+    int left = isBalancedBottomUp(root->left);
+    if (left == -1) return -1;
 
-    return left > right ? left + 1 : right + 1;
-}
+    int right = isBalancedBottomUp(root->right);
+    if (right == -1) return -1;
 
-int absNode(int left, int right) {
-    int ret = left - right;
-    return ret >= 0 ? ret : 0 - ret;
+    if (abs(left - right) > 1) return -1;
+
+    return (left > right ? left : right) + 1;
 }
 
 bool isBalanced(struct TreeNode* root) {
-    if (!root) {
-        return true;
-    }
-
-    int left = treeDepth(root->left);
-    int right = treeDepth(root->right);
-
-    return (absNode(left, right) <= 1) &&
-           isBalanced(root->left) &&
-           isBalanced(root->right);
+    return isBalancedBottomUp(root) != -1;
 }
