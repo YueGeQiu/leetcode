@@ -25,4 +25,18 @@ class Solution:
     def majorityElement(self, nums: list):
         if not nums:
             return
-        pass
+        count = 1
+        major = nums[0]
+        for i in nums[1:]:
+            if i != major:
+                count -= 1
+                if count == 0:
+                    # reset
+                    count = 1
+                    major = i
+            else:
+                count += 1
+
+        return major
+
+
